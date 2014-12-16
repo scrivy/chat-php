@@ -1,16 +1,16 @@
 'use strict';
 
-var chatServices = angular.module('chatServices', []);
+angular.module('chat')
 
-chatServices.service('navigation', ['$rootScope',
+.service('navigation', ['$rootScope',
   function($rootScope) {
     this.togglelobbysettingsvisibility = function() {
       $rootScope.$broadcast('togglelobbysettingsvisibility');
     };
   }
-]);
+])
 
-chatServices.factory('primus', function($rootScope) {
+.factory('primus', function($rootScope) {
   var primus = new Primus()
     , actions = {};
 
