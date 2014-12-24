@@ -18,12 +18,12 @@ angular.module('chat')
                             };
 
                             $scope.sendmessage = function() {
-                                if ($scope.inputmessage) {
+                                if ($scope.model.inputmessage) {
                                     ws.send({
                                         action: 'lobbymessage',
                                         data: {
-                                            username: $scope.username,
-                                            message: $scope.inputmessage
+                                            username: $scope.model.username,
+                                            message: $scope.model.inputmessage
                                         }
                                     });
 
@@ -48,7 +48,7 @@ angular.module('chat')
                             $scope.sessionsetuphandler = function(event) {
                                 if ((event.type === 'keypress' && event.keyCode===13) || (event.type === 'click')) {
                                     $scope.setupvisible = false;
-                                    localStorage.setItem('lobbyusername', $scope.username);
+                                    localStorage.setItem('lobbyusername', $scope.model.username);
                                 }
                             }
 

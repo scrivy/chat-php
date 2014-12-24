@@ -30,8 +30,8 @@ angular.module('chat', [
 ])
 
 .factory('ws', function($rootScope) {
-    var ws = new WebSocket('ws://' + window.location.hostname + ':8080/ws')
-        , actions = {};
+    var ws = new WebSocket('ws://' + window.location.hostname + ':8080/ws'),
+        actions = {};
 
     ws.onmessage = function(event) {
         try {

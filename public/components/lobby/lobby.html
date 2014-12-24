@@ -1,5 +1,5 @@
 <div class='lobbymessages' autoscrolldown>
-  <p ng-repeat='message in messages'>
+  <p ng-repeat='message in model.messages'>
     <b>{{message.username}}</b>:
     {{message.message}}
   </p>
@@ -7,7 +7,7 @@
 <br />
 <div class='inputsend'>
   <div class='ui action input'>
-    <input ng-model='inputmessage' ng-keypress='sendhandler($event)' placeholder='message...' />
+    <input ng-model='model.inputmessage' ng-keypress='sendhandler($event)' placeholder='message...' />
     <div class='ui button' ng-click='sendhandler($event)'>send</div>
   </div>
 </div>
