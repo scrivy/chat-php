@@ -36,8 +36,9 @@ angular.module('chat', [
         actions = {};
 
     ws.onmessage = function(event) {
+        var message;
         try {
-            var message = JSON.parse(event.data);
+            message = JSON.parse(event.data);
         } catch(e) {
             console.error(e.message);
             console.error('raw message: ' + event);

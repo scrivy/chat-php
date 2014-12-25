@@ -21,7 +21,10 @@ module.exports = function(grunt) {
       files: [
         'public/app.js',
         'public/components/**/*.js'
-      ]
+      ],
+      options: {
+        jshintrc: '.jshintrc'
+      }
     }
   });
 };
