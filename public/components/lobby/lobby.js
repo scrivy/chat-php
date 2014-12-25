@@ -10,9 +10,7 @@ angular.module('chat')
                     controller: ['$scope', 'ws',
                         function($scope, ws) {
                             $scope.sendhandler = function(event) {
-                                if (event.type === 'keypress' && event.keyCode===13) {
-                                    $scope.sendmessage();
-                                } else if (event.type === 'click') {
+                                if ((event.type === 'keypress' && event.keyCode===13) || event.type === 'click') {
                                     $scope.sendmessage();
                                 }
                             };
@@ -27,7 +25,7 @@ angular.module('chat')
                                         }
                                     });
 
-                                    $scope.inputmessage = '';
+                                    $scope.model.inputmessage = '';
                                 } else {
                                     console.log('no message provided');
                                 }
@@ -47,7 +45,7 @@ angular.module('chat')
 
                             $scope.sessionsetuphandler = function(event) {
                                 if ((event.type === 'keypress' && event.keyCode===13) || (event.type === 'click')) {
-                                    $scope.setupvisible = false;
+                                    $scope.model.setupvisible = false;
                                     localStorage.setItem('lobbyusername', $scope.model.username);
                                 }
                             }
