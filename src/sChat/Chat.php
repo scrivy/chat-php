@@ -8,11 +8,12 @@ class Chat implements MessageComponentInterface {
     protected $clients;
 
     public function __construct() {
-        $this->clients = new \SplObjectStorage;
+        $this->clients = [];
     }
 
     public function onOpen(ConnectionInterface $conn) {
-        $this->clients->attach($conn);
+        $this->clients[$conn->resourceId] = $conn;
+        $this->broadcastClientCount();
 
         echo "New connection! ({$conn->resourceId})\n";
     }
@@ -31,7 +32,8 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onClose(ConnectionInterface $conn) {
-        $this->clients->detach($conn);
+        unset($this->clients[$conn->resourceId]);
+        $this->broadcastClientCount();
 
         echo "Connection {$conn->resourceId} has disconnected\n";
     }
@@ -39,5 +41,15 @@ class Chat implements MessageComponentInterface {
     public function onError(ConnectionInterface $conn, \Exception $e) {
         echo "An error has occured: {$e->getMessage()}\n";
     }
-}
 
+    private function broadcastClientCount() {
+        $clientCount = json_encode([
+            'action' => 'clientcount',
+            'data' => count($this->clients)
+        ]);
+
+        foreach ($this->clients as $client) {
+            $client->send($clientCount);
+        }
+    }
+}
