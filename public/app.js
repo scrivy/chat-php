@@ -9,15 +9,17 @@ angular.module('chat', [
     $urlRouterProvider.otherwise('/lobby');
 }])
 
-.controller('topnavibar', ['$scope', 'ws', 'navigation',
-    function($scope, ws, navigation) {
+.controller('topnavibar', ['$scope', 'ws', 'navigation', 'appState',
+    function($scope, ws, navigation, appState) {
+        $scope.appState = appState;
+
         ws.on('clientcount', function(data) {
             $scope.clientcount = data;
         });
 
         $scope.togglelobbysettings = function() {
             navigation.togglelobbysettingsvisibility();
-        }
+        };
     }
 ])
 
@@ -81,3 +83,11 @@ angular.module('chat', [
         }
     }
 })
+
+.factory('appState', [
+    function() {
+        return {
+            state: null
+        }
+    }
+])

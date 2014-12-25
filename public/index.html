@@ -11,16 +11,20 @@
 <!-- begin navibar -->
   <div class='ui tiered transparent inverted menu' ng-controller='topnavibar'>
     <div class='menu'>
-      <a data-id='lobby' class='item mainview active'>
-        <i class='chat icon'></i>
-        Lobby
-      </a>
-      <a data-id='friends' class='item mainview'>
-        <i class='users icon'></i>
-        Friends
-      </a>
+        <a  ng-class='{active: appState.state=="lobby"}'
+            ui-sref='lobby'
+            class='item mainview'>
+                <i class='chat icon'></i>
+                Lobby
+        </a>
+        <a  ng-class='{active: appState.state=="friends"}'
+            ui-sref='friends'
+            class='item mainview'>
+                <i class='users icon'></i>
+                Friends
+        </a>
     </div>
-    <div class='ui sub menu lobby'>
+    <div ng-show='appState.state == "lobby"' class='ui sub menu'>
       <a class='item'>
         {{clientcount}}
         People Connected
@@ -31,7 +35,7 @@
         </a>
       </div>
     </div>
-    <div style='display: none;' class='ui sub menu friends'>
+    <div ng-show='appState.state == "friends"' class='ui sub menu'>
       <a class='item'>
         <i class='icon small add'></i>
         Add
@@ -53,9 +57,14 @@
   <script src='bower_components/angular-animate/angular-animate.js'></script>
   <script src='bower_components/angular-ui-router/release/angular-ui-router.js'></script>
 
+  <script src='crypto/aes.js'></script>
+  <script src='crypto/md5.js'></script>
+  <script src='crypto/sha3.js'></script>
+
 <!-- scripts -->
   <script src='app.js'></script>
   <script src='components/lobby/lobby.js'></script>
+  <script src='components/friends/friends.js'></script>
 </body>
 </html>
 

@@ -7,8 +7,10 @@ angular.module('chat')
                 .state('lobby', {
                     url: '/lobby',
                     templateUrl: 'components/lobby/lobby.html',
-                    controller: ['$scope', 'ws',
-                        function($scope, ws) {
+                    controller: ['$scope', 'ws', 'appState',
+                        function($scope, ws, appState) {
+                            appState.state = 'lobby';
+
                             $scope.sendhandler = function(event) {
                                 if ((event.type === 'keypress' && event.keyCode===13) || event.type === 'click') {
                                     $scope.sendmessage();
