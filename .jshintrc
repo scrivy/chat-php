@@ -3,6 +3,9 @@
   "globalstrict": true,
   "globals": {
     "angular": false,
-    "localStorage": false
+    "localStorage": false,
+    "CryptoJS": false,
+    "WebSocket": false,
+    "window": false
   }
 }

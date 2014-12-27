@@ -82,13 +82,16 @@ angular.module('chat', [
                 element[0].scrollTop = newval;
             });
         }
-    }
+    };
 })
 
 .factory('appState', [
     function() {
         return {
-            state: null
-        }
+            state: null,
+            lobby: {
+                messages: []
+            }
+        };
     }
-])
+]);

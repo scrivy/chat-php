@@ -1,5 +1,5 @@
 <div class='lobbymessages' autoscrolldown>
-  <p ng-repeat='message in model.messages'>
+  <p ng-repeat='message in appState.lobby.messages'>
     <b>{{message.username}}</b>:
     {{message.message}}
   </p>
