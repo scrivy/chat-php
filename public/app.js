@@ -20,6 +20,10 @@ angular.module('chat', [
         $scope.togglelobbysettings = function() {
             navigation.togglelobbysettingsvisibility();
         };
+
+        $scope.toggle = function(prop) {
+            appState[appState.state][prop] = !appState[appState.state][prop];
+        };
     }
 ])
 
@@ -31,47 +35,54 @@ angular.module('chat', [
     }
 ])
 
-.factory('ws', function($rootScope) {
-    var ws = new WebSocket('ws://' + window.location.hostname + ':8080'),
-        actions = {};
-
-    ws.onmessage = function(event) {
-        var message;
-        try {
-            message = JSON.parse(event.data);
-        } catch(e) {
-            console.error(e.message);
-            console.error('raw message: ' + event);
-            return;
-        }
-        console.log(message);
-
-        if (typeof message === 'object' && message.action && message.data) {
-            if (actions[message.action]) {
-                $rootScope.$apply(function() {
-                    actions[message.action](message.data);
-                });
-            } else {
-                throw new Error('WebSocket error, no registered action exists for "' + message.action + '"');
+.factory('ws', ['$rootScope', 'appState', 
+    function($rootScope, appState) {
+        var ws = new WebSocket('ws://' + window.location.hostname + ':8080'),
+            actions = {
+                lobbymessage: function(message) {
+                    appState.lobby.messages.push(message);
+                }
             }
-        } else {
-            throw new Error('WebSocket error, malformed incoming message');
-        }
-    };
+        ;
 
-    return {
-        on: function(name, cb) {
-            actions[name] = cb;
-        },
-        send: function(message) {
+        ws.onmessage = function(event) {
+            var message;
+            try {
+                message = JSON.parse(event.data);
+            } catch(e) {
+                console.error(e.message);
+                console.error('raw message: ' + event);
+                return;
+            }
+            console.log(message);
+
             if (typeof message === 'object' && message.action && message.data) {
-                ws.send(JSON.stringify(message));
+                if (actions[message.action]) {
+                    $rootScope.$apply(function() {
+                        actions[message.action](message.data);
+                    });
+                } else {
+                    throw new Error('WebSocket error, no registered action exists for "' + message.action + '"');
+                }
             } else {
-                throw new Error('WebSocket error, no action or data properties provided');
+                throw new Error('WebSocket error, malformed incoming message');
             }
-        }
-    };
-})
+        };
+
+        return {
+            on: function(name, cb) {
+                actions[name] = cb;
+            },
+            send: function(message) {
+                if (typeof message === 'object' && message.action && message.data) {
+                    ws.send(JSON.stringify(message));
+                } else {
+                    throw new Error('WebSocket error, no action or data properties provided');
+                }
+            }
+        };
+    }
+])
 
 .directive('autoscrolldown', function() {
     return {
@@ -91,6 +102,9 @@ angular.module('chat', [
             state: null,
             lobby: {
                 messages: []
+            },
+            friends: {
+                addFriendVisible: false
             }
         };
     }

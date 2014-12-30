@@ -1,0 +1,49 @@
+
+<div class='modalcontainer' ng-show='appState.friends.addFriendVisible'>
+    <div class='setup'>
+        <div class='ui header'>
+            Add Friend
+        </div>
+        <div class='content'>
+            your id : {{model.addFriend.myId}}
+            <br /><br />
+            <div ng-show='model.addFriend.inputAndButtonVisible'>
+                <div class='ui large input fluid'>
+                    <input
+                        ng-model='model.addFriend.friendsId'
+                        type='text'
+                        placeholder='friends id' />
+                </div>
+                <br />
+                <div class='actions' >
+                    <div
+                        ng-click='sendRequest()'
+                        style='margin-left: 0;'
+                        class='ui positive button huge fluid'>
+                            Add
+                    </div>
+                </div>
+            </div>
+            <div ng-show='model.addFriend.password'>
+                give to friend: {{model.addFriend.password}}
+            </div>
+            <div ng-show='model.addFriend.passInputVisible'>
+                <div class='ui large input fluid'>
+                    <input
+                        ng-model='model.addFriend.password'
+                        type='text'
+                        placeholder='password' />
+                </div>
+                <br />
+                <div class='actions' >
+                    <div
+                        ng-click='testMessage()'
+                        style='margin-left: 0;'
+                        class='ui positive button huge fluid'>
+                            Test Connection
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

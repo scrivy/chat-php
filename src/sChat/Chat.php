@@ -6,9 +6,11 @@ use Ratchet\ConnectionInterface;
 
 class Chat implements MessageComponentInterface {
     protected $clients;
+    protected $friendRequests;
 
     public function __construct() {
         $this->clients = [];
+        $this->friendRequests = [];
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -19,15 +21,40 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
-        $numRecv = count($this->clients) - 1;
-        echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
+        $json = json_decode($msg);
 
-        foreach ($this->clients as $client) {
-//            if ($from !== $client) {
-                // The sender is not the receiver, send to each client connected
-                $client->send($msg);
-//            }
+        var_dump($json);
+        switch ($json->action) {
+            case 'lobbymessage':
+                foreach ($this->clients as $client) {
+                    $client->send($msg);
+                }
+                break;
+
+            case 'addFriend':
+                if (isset($this->friendRequests[$json->data->to])) {
+                    $exists = true;
+                } else {
+                    $exists = false;
+                    $this->friendRequests[$json->data->from] = $from;
+                }
+
+                $from->send(json_encode([
+                    'action' => 'addFriend',
+                    'data' => [ 'exists' => $exists ]
+                ]));
+                break;
+
+            case 'testMessage':
+                if (isset($this->friendRequests[$json->data->to])) {
+                    $this->friendRequests[$json->data->to]->send($msg);
+                    unset($this->friendRequests[$json->data->from]);
+                    unset($this->friendRequests[$json->data->to]);
+                }
+                break;
+
+            default:
+                echo 'error, not an action';
         }
     }
 

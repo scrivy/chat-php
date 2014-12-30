@@ -12,6 +12,13 @@ angular.module('chat')
                             appState.state = 'lobby';
                             $scope.appState = appState;
 
+                            if (!localStorage) throw new Error('web storage required');
+                            $scope.model = {
+                                username : localStorage.getItem('lobbyusername')
+                            };
+
+                            $scope.model.setupvisible = $scope.model.username ? false : true;
+
                             $scope.sendhandler = function(event) {
                                 if ((event.type === 'keypress' && event.keyCode===13) || event.type === 'click') {
                                     $scope.sendmessage();
@@ -31,19 +38,6 @@ angular.module('chat')
                                     $scope.model.inputmessage = '';
                                 }
                             };
-
-                            ws.on('lobbymessage', function(message) {
-                            //    $scope.model.messages.push(message);
-                                appState.lobby.messages.push(message);
-                            });
-
-                            if (!localStorage) throw new Error('web storage required');
-                            $scope.model = {
-//                                messages : [],
-                                username : localStorage.getItem('lobbyusername')
-                            };
-
-                            $scope.model.setupvisible = $scope.model.username ? false : true;
 
                             $scope.sessionsetuphandler = function(event) {
                                 if ((event.type === 'keypress' && event.keyCode===13) || (event.type === 'click')) {
