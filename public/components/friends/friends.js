@@ -21,8 +21,6 @@ angular.module('chat')
                                 friends = JSON.parse(friends);
                             }
 
-                            console.log(friends);
-
                             $scope.model = {};
                             resetAddFriend();
 
@@ -74,6 +72,7 @@ angular.module('chat')
                                         JSON.stringify(friends)
                                     );
 
+                                    $scope.testMessage();
                                     resetAddFriend();
                                 }
                             });

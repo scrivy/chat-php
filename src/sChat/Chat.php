@@ -32,12 +32,9 @@ class Chat implements MessageComponentInterface {
                 break;
 
             case 'addFriend':
-                if (isset($this->friendRequests[$json->data->to])) {
-                    $exists = true;
-                } else {
-                    $exists = false;
-                    $this->friendRequests[$json->data->from] = $from;
-                }
+                $exists = isset($this->friendRequests[$json->data->to]) ? true : false;
+
+                $this->friendRequests[$json->data->from] = $from;
 
                 $from->send(json_encode([
                     'action' => 'addFriend',
@@ -46,9 +43,10 @@ class Chat implements MessageComponentInterface {
                 break;
 
             case 'testMessage':
+            	var_dump(array_keys($this->friendRequests));
                 if (isset($this->friendRequests[$json->data->to])) {
                     $this->friendRequests[$json->data->to]->send($msg);
-                    unset($this->friendRequests[$json->data->from]);
+                //    unset($this->friendRequests[$json->data->from]);
                     unset($this->friendRequests[$json->data->to]);
                 }
                 break;

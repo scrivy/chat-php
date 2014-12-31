@@ -6,6 +6,7 @@
     "localStorage": false,
     "CryptoJS": false,
     "WebSocket": false,
-    "window": false
+    "window": false,
+    "sjcl": false
   }
 }
