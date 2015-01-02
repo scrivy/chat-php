@@ -21,7 +21,9 @@ angular.module('chat')
                                 friends = JSON.parse(friends);
                             }
 
-                            $scope.model = {};
+                            $scope.model = {
+                                friends : friends
+                            };
                             resetAddFriend();
 
                             $scope.sendRequest = function() {
@@ -47,6 +49,11 @@ angular.module('chat')
                                 });
                             }
 
+                            $scope.deleteFriend = function(index) {
+                                friends.splice(index, 1);
+                                saveFriends();
+                            }
+
                             ws.on('addFriend', function(data) {
                                 $scope.model.addFriend.inputAndButtonVisible = false;
                                 if (data.exists) {
@@ -67,11 +74,7 @@ angular.module('chat')
 
                                     friends.push(friend);
 
-                                    localStorage.setItem(
-                                        'friends',
-                                        JSON.stringify(friends)
-                                    );
-
+                                    saveFriends();
                                     $scope.testMessage();
                                     resetAddFriend();
                                 }
@@ -91,6 +94,13 @@ angular.module('chat')
 
                                 appState.friends.addFriendVisible = false;
                             };
+
+                            function saveFriends() {
+                                localStorage.setItem(
+                                    'friends',
+                                    JSON.stringify(friends)
+                                );
+                            }
                         }
                     ]
                 })

@@ -24,6 +24,10 @@ angular.module('chat', [
         $scope.toggle = function(prop) {
             appState[appState.state][prop] = !appState[appState.state][prop];
         };
+
+        $scope.toggleDeleteFriends = function() {
+            appState.friends.deleteFriendsVisible = !appState.friends.deleteFriendsVisible;
+        }
     }
 ])
 
@@ -104,7 +108,8 @@ angular.module('chat', [
                 messages: []
             },
             friends: {
-                addFriendVisible: false
+                addFriendVisible: false,
+                deleteFriendsVisible: false
             }
         };
     }

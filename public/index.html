@@ -40,7 +40,9 @@
         <i class='icon small add'></i>
         Add
       </a>
-      <a class='item'>
+      <a  class='item'
+          ng-class='{active: appState.friends.deleteFriendsVisible}'
+          ng-click='toggleDeleteFriends()'>
         <i class='icon small remove'></i>
         Remove
       </a>
