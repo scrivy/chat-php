@@ -73,6 +73,15 @@ angular.module('chat', [
             }
         };
 
+        ws.onopen = function() {
+            if (appState.friends.friends.length) {
+                ws.send(JSON.stringify({
+                    action: 'registerIds',
+                    data: appState.friends.friends.map(function(friend) { return friend.from; })
+                }));
+            }
+        };
+            
         return {
             on: function(name, cb) {
                 actions[name] = cb;
@@ -100,7 +109,7 @@ angular.module('chat', [
     };
 })
 
-.factory('appState', [
+.factory('appState', [ 
     function() {
         var friends = localStorage.getItem('friends');
         if (!friends) {
