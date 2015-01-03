@@ -10,20 +10,10 @@ angular.module('chat')
                     controller: ['$scope', 'ws', 'appState',
                         function($scope, ws, appState) {
                             appState.state = 'friends';
+                            var friends = appState.friends.friends;
                             $scope.appState = appState;
 
-                            if (!localStorage) throw new Error('web storage required');
-                            var friends = localStorage.getItem('friends');
-                            if (!friends) {
-                                friends = [];
-                                localStorage.setItem('friends', '[]');
-                            } else {
-                                friends = JSON.parse(friends);
-                            }
-
-                            $scope.model = {
-                                friends : friends
-                            };
+                            $scope.model = {};
                             resetAddFriend();
 
                             $scope.sendRequest = function() {

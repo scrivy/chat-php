@@ -1,5 +1,5 @@
 <div class='ui divided very relaxed list'>
-    <div ng-repeat='friend in model.friends' class='item'>
+    <div ng-repeat='friend in appState.friends.friends' class='item'>
         {{friend.to}}
         <a  ng-click='deleteFriend($index)'
             ng-show='appState.friends.deleteFriendsVisible'>

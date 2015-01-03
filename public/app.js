@@ -102,14 +102,23 @@ angular.module('chat', [
 
 .factory('appState', [
     function() {
+        var friends = localStorage.getItem('friends');
+        if (!friends) {
+            friends = [];
+            localStorage.setItem('friends', '[]');
+        } else {
+            friends = JSON.parse(friends);
+        }
+
         return {
             state: null,
             lobby: {
                 messages: []
             },
             friends: {
-                addFriendVisible: false,
-                deleteFriendsVisible: false
+                friends: friends,
+                deleteFriendsVisible: false,
+                addFriendVisible: false
             }
         };
     }
