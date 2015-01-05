@@ -77,7 +77,7 @@ angular.module('chat', [
             if (appState.friends.friends.length) {
                 ws.send(JSON.stringify({
                     action: 'registerIds',
-                    data: appState.friends.friends.map(function(friend) { return friend.from; })
+                    data: appState.friends.friends.map(function(friend) { return friend.myId; })
                 }));
             }
         };

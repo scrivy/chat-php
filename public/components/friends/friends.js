@@ -57,8 +57,8 @@ angular.module('chat')
                                 var decrypted = sjcl.decrypt($scope.model.addFriend.password, data.message);
                                 if (decrypted === 'test') {
                                     var friend = {
-                                        to: data.to,
-                                        from: data.from,
+                                        myId: data.to,
+                                        friendsId: data.from,
                                         password: $scope.model.addFriend.password
                                     };
 

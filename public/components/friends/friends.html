@@ -1,6 +1,6 @@
 <div class='ui divided very relaxed list'>
     <div ng-repeat='friend in appState.friends.friends' class='item'>
-        {{friend.to}}
+        {{friend.friendsId}}
         <a  ng-click='deleteFriend($index)'
             ng-show='appState.friends.deleteFriendsVisible'>
             <i class='delete icon'></i>

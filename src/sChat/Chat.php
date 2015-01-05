@@ -7,10 +7,12 @@ use Ratchet\ConnectionInterface;
 class Chat implements MessageComponentInterface {
     protected $clients;
     protected $friendRequests;
+    protected $idToConn;
 
     public function __construct() {
         $this->clients = [];
         $this->friendRequests = [];
+        $this->idToConn = [];
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -43,11 +45,16 @@ class Chat implements MessageComponentInterface {
                 break;
 
             case 'testMessage':
-            	var_dump(array_keys($this->friendRequests));
                 if (isset($this->friendRequests[$json->data->to])) {
                     $this->friendRequests[$json->data->to]->send($msg);
                 //    unset($this->friendRequests[$json->data->from]);
                     unset($this->friendRequests[$json->data->to]);
+                }
+                break;
+
+            case 'registerIds':
+                foreach ($json->data as $id) {
+                    $this->idToConn[$id] = $from;
                 }
                 break;
 
