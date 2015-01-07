@@ -66,6 +66,10 @@ angular.module('chat')
 
                                     saveFriends();
                                     $scope.testMessage();
+                                    ws.send({
+                                        action: 'registerIds',
+                                        data: [friend.myId]
+                                    });
                                     resetAddFriend();
                                 }
                             });
