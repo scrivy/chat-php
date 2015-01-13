@@ -22,7 +22,7 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
                         }
                     });
                 }
-            }
+            };
 
             $scope.testMessage = function() {
                 ws.send({
@@ -33,12 +33,12 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
                         message: sjcl.encrypt($scope.model.addFriend.password, 'test')
                     }
                 });
-            }
+            };
 
             $scope.deleteFriend = function(friendId) {
                 delete friends[friendId];
                 saveFriends();
-            }
+            };
 
             ws.on('addFriend', function(data) {
                 $scope.model.addFriend.inputAndButtonVisible = false;
@@ -56,7 +56,7 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
                     friends[data.from] = {
                         myId: data.to,
                         password: $scope.model.addFriend.password
-                    }
+                    };
 
                     saveFriends();
                     $scope.testMessage();
@@ -81,7 +81,7 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
                 };
 
                 appState.friends.addFriendVisible = false;
-            };
+            }
 
             function saveFriends() {
                 localStorage.setItem(

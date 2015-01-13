@@ -27,7 +27,7 @@ angular.module('chat', [
 
         $scope.toggleDeleteFriends = function() {
             appState.friends.deleteFriendsVisible = !appState.friends.deleteFriendsVisible;
-        }
+        };
     }
 ])
 
@@ -41,7 +41,6 @@ angular.module('chat', [
 
 .factory('ws', ['$rootScope', 'appState', 
     function($rootScope, appState) {
-        console.log(appState);
 
         var ws = new WebSocket('ws://' + window.location.hostname + ':8080'),
             actions = {
