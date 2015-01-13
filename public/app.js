@@ -41,11 +41,19 @@ angular.module('chat', [
 
 .factory('ws', ['$rootScope', 'appState', 
     function($rootScope, appState) {
+        console.log(appState);
+
         var ws = new WebSocket('ws://' + window.location.hostname + ':8080'),
             actions = {
+
                 lobbymessage: function(message) {
                     appState.lobby.messages.push(message);
+                },
+
+                privateMessage: function(message) {
+                    console.log(message);
                 }
+
             }
         ;
 
@@ -112,12 +120,7 @@ angular.module('chat', [
 .factory('appState', [ 
     function() {
         var friends = localStorage.getItem('friends');
-        if (!friends) {
-            friends = [];
-            localStorage.setItem('friends', '[]');
-        } else {
-            friends = JSON.parse(friends);
-        }
+        friends = friends ? JSON.parse(friends) : {};
 
         return {
             state: null,

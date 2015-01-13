@@ -1,13 +1,14 @@
 <div class='ui divided very relaxed list'>
-    <div ng-repeat='friend in appState.friends.friends' class='item'>
-        {{friend.friendsId}}
-        <a  ng-click='deleteFriend($index)'
+    <div ng-repeat='(friendId, data) in appState.friends.friends' class='item'>
+        <a ui-sref="pm({ friendId: friendId })">
+            {{friendId}}
+        </a>
+        <a  ng-click='deleteFriend(friendId)'
             ng-show='appState.friends.deleteFriendsVisible'>
             <i class='delete icon'></i>
         </a>
     </div>
 </div>
-
 
 <div class='modalcontainer' ng-show='appState.friends.addFriendVisible'>
     <div class='setup'>
