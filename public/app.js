@@ -81,10 +81,11 @@ angular.module('chat', [
         };
 
         ws.onopen = function() {
-            if (appState.friends.friends.length) {
+            var myIds = Object.keys(appState.friends.friends);
+            if (myIds.length) {
                 ws.send(JSON.stringify({
                     action: 'registerIds',
-                    data: appState.friends.friends.map(function(friend) { return friend.myId; })
+                    data: myIds
                 }));
             }
         };

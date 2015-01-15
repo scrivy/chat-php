@@ -30,8 +30,13 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
                     action: 'testMessage',
                     data: {
                         to: $scope.model.addFriend.friendsId,
-                        from: $scope.model.addFriend.myId,
-                        message: sjcl.encrypt($scope.model.addFriend.password, 'test')
+                        message: sjcl.encrypt(
+                            $scope.model.addFriend.password,
+                            JSON.stringify({
+                                test: 'test',
+                                friendsId: $scope.model.addFriend.myId
+                            })
+                        )
                     }
                 });
             };
@@ -47,15 +52,17 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
                     $scope.model.addFriend.passInputVisible = true;
                 } else {
                     $scope.model.addFriend.password = genMD5();
+                    $scope.model.addFriend.passwordVisible = true;
                 }
             });
 
             ws.on('testMessage', function(data) {
-                var decrypted = sjcl.decrypt($scope.model.addFriend.password, data.message);
-                if (decrypted === 'test') {
+                var decrypted = JSON.parse(sjcl.decrypt($scope.model.addFriend.password, data.message));
+                if (decrypted.test === 'test') {
 
-                    friends[data.from] = {
-                        myId: data.to,
+                    friends[decrypted.friendsId] = {
+                        name: $scope.model.addFriend.friendsName,
+                        myId: $scope.model.addFriend.myId,
                         password: $scope.model.addFriend.password
                     };
 
@@ -63,7 +70,7 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
                     $scope.testMessage();
                     ws.send({
                         action: 'registerIds',
-                        data: [data.from]
+                        data: [$scope.model.addFriend.myId]
                     });
                     resetAddFriend();
                 }

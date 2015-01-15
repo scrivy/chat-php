@@ -1,7 +1,7 @@
 <div class='ui divided very relaxed list'>
     <div ng-repeat='(friendId, data) in appState.friends.friends' class='item'>
         <a ui-sref="pm({ friendId: friendId })">
-            {{friendId}}
+            {{data.name}}
         </a>
         <a  ng-click='deleteFriend(friendId)'
             ng-show='appState.friends.deleteFriendsVisible'>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            <div ng-show='model.addFriend.password'>
+            <div ng-show='model.addFriend.passwordVisible'>
                 give to friend: {{model.addFriend.password}}
             </div>
 
