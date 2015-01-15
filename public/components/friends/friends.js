@@ -17,8 +17,9 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
                     ws.send({
                         action: 'addFriend',
                         data: {
-                            from: $scope.model.addFriend.myId,
+                            from: $scope.model.addFriend.requestId,
                             to: $scope.model.addFriend.friendsId
+//                            to: $scope.model.addFriend.friendsId
                         }
                     });
                 }
@@ -74,6 +75,8 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
 
             function resetAddFriend() {
                 $scope.model.addFriend = {
+                    requestId : Math.floor(Math.random() * 1000),
+                    friendsName: null,
                     myId : genMD5(),
                     password : null,
                     inputAndButtonVisible : true,

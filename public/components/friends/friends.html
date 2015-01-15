@@ -16,14 +16,21 @@
             Add Friend
         </div>
         <div class='content'>
-            your id : {{model.addFriend.myId}}
+            request id: {{model.addFriend.requestId}}
             <br /><br />
             <div ng-show='model.addFriend.inputAndButtonVisible'>
                 <div class='ui large input fluid'>
                     <input
                         ng-model='model.addFriend.friendsId'
                         type='text'
-                        placeholder='friends id' />
+                        placeholder="friend's request id" />
+                </div>
+                <br />
+                <div class='ui large input fluid'>
+                    <input
+                        ng-model='model.addFriend.friendsName'
+                        type='text'
+                        placeholder="friend's name">
                 </div>
                 <br />
                 <div class='actions' >
@@ -38,6 +45,7 @@
             <div ng-show='model.addFriend.password'>
                 give to friend: {{model.addFriend.password}}
             </div>
+
             <div ng-show='model.addFriend.passInputVisible'>
                 <div class='ui large input fluid'>
                     <input
