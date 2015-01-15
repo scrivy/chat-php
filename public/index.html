@@ -11,27 +11,27 @@
 <!-- begin navibar -->
 <div class='ui tiered transparent inverted menu' ng-controller='topnavibar'>
     <div class='menu'>
-        <a  ng-class='{active: appState.state=="lobby"}'
+        <a  ng-class='{active: appState.state.current.name=="lobby"}'
             ui-sref='lobby'
             class='item mainview'>
                 <i class='chat icon'></i>
                 Lobby
         </a>
-        <a  ng-class='{active: appState.state=="friends"}'
+        <a  ng-class='{active: appState.state.current.name=="friends"}'
             ui-sref='friends'
             class='item mainview'>
                 <i class='users icon'></i>
                 Friends
         </a>
         <span 
-            ng-show='appState.state=="pm"'
+            ng-show='appState.state.current.name=="pm"'
             class='item mainview active'>
                 <i class='mail icon'></i>
                 PM
         </span>
             
     </div>
-    <div ng-show='appState.state == "lobby"' class='ui sub menu'>
+    <div ng-show='appState.state.current.name=="lobby"' class='ui sub menu'>
         <a class='item'>
             {{clientcount}}
             People Connected
@@ -43,7 +43,7 @@
         </div>
     </div>
 
-    <div ng-show='appState.state == "friends"' class='ui sub menu'>
+    <div ng-show='appState.state.current.name == "friends"' class='ui sub menu'>
         <a class='item' ng-click="toggle('addFriendVisible')">
             <i class='icon small add'></i>
             Add

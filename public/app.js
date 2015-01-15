@@ -22,7 +22,7 @@ angular.module('chat', [
         };
 
         $scope.toggle = function(prop) {
-            appState[appState.state][prop] = !appState[appState.state][prop];
+            appState[appState.state.current.name][prop] = !appState[appState.state.current.name][prop];
         };
 
         $scope.toggleDeleteFriends = function() {

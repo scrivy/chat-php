@@ -4,8 +4,8 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('friends', {
         url: '/friends',
         templateUrl: 'components/friends/friends.html',
-        controller: ['$scope', 'ws', 'appState', function($scope, ws, appState) {
-            appState.state = 'friends';
+        controller: ['$scope', '$state', 'ws', 'appState', function($scope, $state, ws, appState) {
+            appState.state = $state;
             var friends = appState.friends.friends;
             $scope.appState = appState;
 
@@ -63,7 +63,8 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
                     friends[decrypted.friendsId] = {
                         name: $scope.model.addFriend.friendsName,
                         myId: $scope.model.addFriend.myId,
-                        password: $scope.model.addFriend.password
+                        password: $scope.model.addFriend.password,
+                        messages: []
                     };
 
                     saveFriends();

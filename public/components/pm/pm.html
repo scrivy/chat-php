@@ -1,0 +1,16 @@
+<div class='pmMessages' autoscrolldown>
+	<p ng-repeat='message in model.friend.messages'>
+		<b>{{message.from}}</b>:
+		{{message.message}}
+	</p>
+</div>
+<br />
+<div class='inputsend'>
+	<div class='ui action input'>
+		<input
+			ng-model='model.inputMessage'
+			ng-keypress='sendhandler($event)'
+			placeholder='message...' />
+		<div class='ui button' ng-click='sendhandler($event)'>send</div>
+	</div>
+</div>
