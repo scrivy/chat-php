@@ -51,6 +51,16 @@ angular.module('chat', [
 
                 privateMessage: function(message) {
                     console.log(message);
+
+                    var friend = appState.friends.friends[message.from];
+
+                    if (friend) {
+                        friend.messages.push({
+                            from: friend.name,
+                            to: 'me',
+                            message: sjcl.decrypt(friend.password, message.message)
+                        });
+                    }
                 }
 
             }
@@ -81,7 +91,11 @@ angular.module('chat', [
         };
 
         ws.onopen = function() {
-            var myIds = Object.keys(appState.friends.friends);
+            var myIds = [];
+            for (var id in appState.friends.friends) {
+                myIds.push(appState.friends.friends[id].myId);
+            }
+
             if (myIds.length) {
                 ws.send(JSON.stringify({
                     action: 'registerIds',

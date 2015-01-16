@@ -20,7 +20,7 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
             $scope.sendmessage = function() {
                 if ($scope.model.inputMessage) {
                     ws.send({
-                        action: 'pm',
+                        action: 'privateMessage',
                         data: {
                         	to: $stateParams.friendId,
                             from: $scope.model.friend.myId,
