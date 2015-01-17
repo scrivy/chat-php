@@ -50,8 +50,6 @@ angular.module('chat', [
                 },
 
                 privateMessage: function(message) {
-                    console.log(message);
-
                     var friend = appState.friends.friends[message.from];
 
                     if (friend) {

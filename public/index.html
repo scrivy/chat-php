@@ -31,7 +31,7 @@
         </span>
             
     </div>
-    <div ng-show='appState.state.current.name=="lobby"' class='ui sub menu'>
+    <div ng-show='appState.state.current.name == "lobby"' class='ui sub menu'>
         <a class='item'>
             {{clientcount}}
             People Connected
@@ -54,6 +54,12 @@
                 <i class='icon small remove'></i>
                 Remove
         </a>
+    </div>
+
+    <div ng-show='appState.state.current.name == "pm"' class='ui sub menu'>
+        <span class='item'>
+            <b>{{appState.friends.friends[appState.state.params.friendId].name}}</b>
+        </span>
     </div>
 </div>
 <!-- end navibar -->

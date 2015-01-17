@@ -3,7 +3,7 @@ html, body {
   padding: 0;
 }
 
-.lobbymessages {
+.messages {
   overflow-y: scroll;
   position: absolute;
   top: 5px;
@@ -12,7 +12,7 @@ html, body {
   left: 5px;
 }
 
-.lobbymessages p {
+.messages p {
   margin: 2px;
 }
 
