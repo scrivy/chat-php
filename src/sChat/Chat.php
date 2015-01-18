@@ -59,6 +59,7 @@ class Chat implements MessageComponentInterface {
                 break;
 
             case 'privateMessage':
+            case 'privateMessageDelivered':
             	if (isset($this->idToConn[$json->data->to])) {
             		$this->idToConn[$json->data->to]->send($msg);
             	}

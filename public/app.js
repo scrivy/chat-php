@@ -58,6 +58,24 @@ angular.module('chat', [
                             to: 'me',
                             message: sjcl.decrypt(friend.password, message.message)
                         });
+
+                        send({
+                            action: 'privateMessageDelivered',
+                            data: {
+                                to: message.from,
+                                from: message.to,
+                                seq: message.seq
+                            }
+                        });
+                    }
+                },
+
+                privateMessageDelivered: function(message) {
+                    var friend = appState.friends.friends[message.from];
+
+                    if (friend) {
+                        friend.messages[friend.messagesNotDelivered[message.seq]].delivered = true;
+                        delete friend.messagesNotDelivered[message.seq];
                     }
                 }
 
@@ -95,24 +113,26 @@ angular.module('chat', [
             }
 
             if (myIds.length) {
-                ws.send(JSON.stringify({
+                send({
                     action: 'registerIds',
                     data: myIds
-                }));
+                });
             }
         };
+
+        function send(message) {
+            if (typeof message === 'object' && message.action && message.data) {
+                ws.send(JSON.stringify(message));
+            } else {
+                throw new Error('WebSocket error, no action or data properties provided');
+            }
+        }
             
         return {
             on: function(name, cb) {
                 actions[name] = cb;
             },
-            send: function(message) {
-                if (typeof message === 'object' && message.action && message.data) {
-                    ws.send(JSON.stringify(message));
-                } else {
-                    throw new Error('WebSocket error, no action or data properties provided');
-                }
-            }
+            send: send
         };
     }
 ])

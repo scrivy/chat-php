@@ -5,6 +5,7 @@ html, body {
 
 .messages {
   overflow-y: scroll;
+  overflow-x: hidden;
   position: absolute;
   top: 5px;
   right: 5px;
@@ -12,8 +13,8 @@ html, body {
   left: 5px;
 }
 
-.messages p {
-  margin: 2px;
+.messages > div {
+  margin: 0.5em 0;
 }
 
 .inputsend {
