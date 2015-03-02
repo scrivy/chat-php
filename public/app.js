@@ -39,14 +39,25 @@ angular.module('chat', [
     }
 ])
 
-.factory('ws', ['$rootScope', 'appState', 
-    function($rootScope, appState) {
+.factory('popSound', function() {
+    var pop = new Audio('pop.ogg');
+
+    return {
+        pop: function() {
+            pop.play();
+        }
+    };
+})
+
+.factory('ws', ['$rootScope', 'appState', 'popSound',
+    function($rootScope, appState, popSound) {
 
         var ws = new WebSocket('ws://' + window.location.hostname + ':8080'),
             actions = {
 
                 lobbymessage: function(message) {
                     appState.lobby.messages.push(message);
+                    popSound.pop();
                 },
 
                 privateMessage: function(message) {
@@ -67,6 +78,7 @@ angular.module('chat', [
                                 seq: message.seq
                             }
                         });
+                        popSound.pop();
                     }
                 },
 
