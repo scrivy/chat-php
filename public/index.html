@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang='en' ng-app='chat'>
+<html lang='en' ng-app='chat' ng-controller='htmlCtrl'>
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width'>
-    <title>chat</title>
+    <title>{{model.title}}</title>
     <link rel='stylesheet' href='bower_components/semantic-ui/dist/semantic.min.css'>
     <link rel='stylesheet' href='app.css'>
   </head>
@@ -64,7 +64,7 @@
 </div>
 <!-- end navibar -->
 
-<div ui-view class='viewcontainer'></div>
+<div ui-view class='viewcontainer' broadcastMouseover></div>
 
 <!-- bower scripts -->
   <script src='bower_components/jquery/dist/jquery.min.js'></script>

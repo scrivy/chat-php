@@ -31,6 +31,16 @@ angular.module('chat', [
     }
 ])
 
+.controller('htmlCtrl', ['$scope', 'page', function($scope, page) {
+    $scope.model = page;
+}])
+
+.factory('page', function() {
+    return {
+        title: 'chat'
+    };
+})
+
 .service('navigation', ['$rootScope',
     function($rootScope) {
         this.togglelobbysettingsvisibility = function() {
@@ -157,6 +167,21 @@ angular.module('chat', [
             }, function(newval, oldval) {
                 element[0].scrollTop = newval;
             });
+        }
+    };
+})
+
+.directive('broadcastMouseover', function() {
+    return {
+        controller: ['$rootScope', '$scope', 'page', function($rootScope, $scope, page) {
+            $scope.init = function() {
+                console.log('initititit');
+                // $rootScope.$broadcast('touchaoeuoau', args);
+            };
+        }],
+        link: function(scope, element) {
+            console.log(element);
+            scope.init();
         }
     };
 })
