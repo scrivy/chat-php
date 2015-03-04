@@ -48,6 +48,10 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
                 }
             };
 
+            $scope.$on('sessionTouched', function() {
+                console.log('touched');
+            });
+
 		}]
 	});
 }]);

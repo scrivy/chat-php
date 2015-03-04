@@ -31,8 +31,12 @@ angular.module('chat', [
     }
 ])
 
-.controller('htmlCtrl', ['$scope', 'page', function($scope, page) {
+.controller('htmlCtrl', ['$scope', '$rootScope', 'page', function($scope, $rootScope, page) {
     $scope.model = page;
+
+    $scope.broadcastEvent = function(listener) {
+        $rootScope.$broadcast(listener);
+    };
 }])
 
 .factory('page', function() {
@@ -167,21 +171,6 @@ angular.module('chat', [
             }, function(newval, oldval) {
                 element[0].scrollTop = newval;
             });
-        }
-    };
-})
-
-.directive('broadcastMouseover', function() {
-    return {
-        controller: ['$rootScope', '$scope', 'page', function($rootScope, $scope, page) {
-            $scope.init = function() {
-                console.log('initititit');
-                // $rootScope.$broadcast('touchaoeuoau', args);
-            };
-        }],
-        link: function(scope, element) {
-            console.log(element);
-            scope.init();
         }
     };
 })
