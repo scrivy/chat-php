@@ -4,7 +4,7 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
 	$stateProvider.state('pm', {
 		url: '/pm?friendId',
 		templateUrl: 'components/pm/pm.html',
-		controller: ['$scope', '$state', '$stateParams', 'ws', 'appState', function($scope, $state, $stateParams, ws, appState) {
+		controller: ['$scope', '$state', '$stateParams', 'ws', 'appState', 'page', '$interval', function($scope, $state, $stateParams, ws, appState, page, $interval) {
 			appState.state = $state;
 			$scope.appState = appState;
 			$scope.model = {
@@ -47,11 +47,37 @@ angular.module('chat').config(['$stateProvider', function($stateProvider) {
                     $scope.model.inputMessage = '';
                 }
             };
+            
+            var hiddenState = {
+                unreadMessages: false,
+                intervalPromise: null
+            };
 
-            $scope.$on('sessionTouched', function() {
-                console.log('touched');
+            $scope.$on('visibilityChanged', function(event,hidden) {
+                if (!hidden && hiddenState.unreadMessages) {
+                    hiddenState.unreadMessages = false;
+                    $interval.cancel(hiddenState.intervalPromise);
+                    page.setDefaultTitle();
+                }
             });
 
+            $scope.$on('newPmNotVisible', function() {
+                if (!hiddenState.unreadMessages) {
+                    hiddenState.unreadMessages = true;
+
+                    var blank = true,
+                        message = '*********************';
+                    hiddenState.intervalPromise = $interval(function() {
+                        if (blank) {
+                            blank = false;
+                            page.title = message;
+                        } else {
+                            blank = true;
+                            page.title = '';
+                        }
+                    }, 1000);
+                }
+            });
 		}]
 	});
 }]);

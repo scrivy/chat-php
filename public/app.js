@@ -31,17 +31,18 @@ angular.module('chat', [
     }
 ])
 
-.controller('htmlCtrl', ['$scope', '$rootScope', 'page', function($scope, $rootScope, page) {
+.controller('htmlCtrl', ['$scope', '$rootScope', 'page', 'visibilityApiService', function($scope, $rootScope, page, visibilityApiService) {
     $scope.model = page;
-
-    $scope.broadcastEvent = function(listener) {
-        $rootScope.$broadcast(listener);
-    };
 }])
 
 .factory('page', function() {
-    return {
-        title: 'chat'
+    var defaultTitle = '------------------------';
+
+    return self = {
+        title: defaultTitle,
+        setDefaultTitle: function() {
+            self.title = defaultTitle;
+        }
     };
 })
 
@@ -63,6 +64,13 @@ angular.module('chat', [
     };
 })
 
+.factory('visibilityApiService', ['$rootScope', function($rootScope) {
+    document.addEventListener('visibilitychange', function() {
+        $rootScope.$broadcast('visibilityChanged', document.hidden);
+    });
+    return {};
+}])
+
 .factory('ws', ['$rootScope', 'appState', 'popSound',
     function($rootScope, appState, popSound) {
 
@@ -83,6 +91,10 @@ angular.module('chat', [
                             to: 'me',
                             message: sjcl.decrypt(friend.password, message.message)
                         });
+
+                        if (document.hidden) {
+                            $rootScope.$broadcast('newPmNotVisible');
+                        }
 
                         send({
                             action: 'privateMessageDelivered',
