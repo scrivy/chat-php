@@ -9,7 +9,7 @@
   </head>
 <body>
 <!-- begin navibar -->
-<div class='ui tiered transparent inverted menu' ng-controller='topnavibar'>
+<div class='ui tiered transparent inverted menu' ng-controller='topnavibar' ng-class="{green: model.newPmMessage}">
     <div class='menu'>
         <a  ng-class='{active: appState.state.current.name=="lobby"}'
             ui-sref='lobby'
@@ -33,7 +33,7 @@
     </div>
     <div ng-show='appState.state.current.name == "lobby"' class='ui sub menu'>
         <a class='item'>
-            {{clientcount}}
+            {{model.clientcount}}
             People Connected
         </a>
         <div class='right menu'>

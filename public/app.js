@@ -13,8 +13,24 @@ angular.module('chat', [
     function($scope, ws, navigation, appState) {
         $scope.appState = appState;
 
+        $scope.model = {
+            clientcount: 0,
+            newPmMessage: false
+        };
+
         ws.on('clientcount', function(data) {
-            $scope.clientcount = data;
+            $scope.model.clientcount = data;
+        });
+
+        $scope.$on('newPmNotVisible', function() {
+            $scope.model.newPmMessage = true;
+            console.log($scope.model);
+        });
+
+        $scope.$on('visibilityChanged', function(e, hidden) {
+            if (!hidden) {
+                $scope.model.newPmMessage = false;
+            }
         });
 
         $scope.togglelobbysettings = function() {
@@ -40,6 +56,7 @@ angular.module('chat', [
 
     return self = {
         title: defaultTitle,
+        hasFocus: true,
         setDefaultTitle: function() {
             self.title = defaultTitle;
         }
@@ -64,15 +81,24 @@ angular.module('chat', [
     };
 })
 
-.factory('visibilityApiService', ['$rootScope', function($rootScope) {
+.factory('visibilityApiService', ['$rootScope', 'page', function($rootScope, page) {
     document.addEventListener('visibilitychange', function() {
         $rootScope.$broadcast('visibilityChanged', document.hidden);
     });
+
+    window.onblur = function() {
+        page.hasFocus = false;
+    };
+
+    window.onfocus = function() {
+        page.hasFocus = true;
+        $rootScope.$broadcast('visibilityChanged', document.hidden);
+    };
     return {};
 }])
 
-.factory('ws', ['$rootScope', 'appState', 'popSound',
-    function($rootScope, appState, popSound) {
+.factory('ws', ['$rootScope', 'appState', 'popSound', 'page',
+    function($rootScope, appState, popSound, page) {
 
         var ws = new WebSocket('ws://' + window.location.hostname + ':8080'),
             actions = {
@@ -92,7 +118,7 @@ angular.module('chat', [
                             message: sjcl.decrypt(friend.password, message.message)
                         });
 
-                        if (document.hidden) {
+                        if (document.hidden || !page.hasFocus) {
                             $rootScope.$broadcast('newPmNotVisible');
                         }
 
